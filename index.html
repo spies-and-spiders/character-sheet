@@ -8,9 +8,19 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Barlow+Semi+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+  /* ---- design tokens ---- */
+  :root{
+    --ink:#141414;
+    --rule:#9a9a9a;
+    --muted:#6c6c6c;
+    --panel:#c6c6c6;
+    --abil:#e9e9e9;
+    --fill:#dcdcdc;
+    --rad:8px;
+  }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
-  body{background:#8f8f8f;font-family:'Barlow Semi Condensed',sans-serif;}
+  body{background:#8f8f8f;font-family:'Barlow Semi Condensed',sans-serif;color:var(--ink);}
   @page{size:letter;margin:0;}
   @media print{
     html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
@@ -18,419 +28,433 @@
     .screen-pad{padding:0!important;background:#fff!important;display:block!important;}
     .sheet{box-shadow:none!important;margin:0!important;}
   }
+  .screen-pad{min-height:100vh;display:flex;flex-direction:column;align-items:center;gap:24px;padding:24px;}
+
+  /* ---- page ---- */
+  .sheet{width:816px;height:1056px;background:#fff;box-shadow:0 10px 50px rgba(0,0,0,.45);
+         padding:14px;display:flex;flex-direction:column;}
+
+  /* ---- reusable primitives ---- */
+  .box{border:2px solid var(--ink);border-radius:var(--rad);background:#fff;position:relative;}
+  .cap{position:absolute;bottom:7px;left:0;right:0;text-align:center;
+       font-weight:700;font-size:10px;letter-spacing:.4px;}
+  .cap.sm{font-size:9px;letter-spacing:.2px;}      /* crit / on-crit         */
+  .cap.mid{font-size:9.5px;letter-spacing:.3px;}    /* when hit / when not hit */
+  .row{display:flex;gap:8px;}
+  .ruled{background:repeating-linear-gradient(#fff,#fff 21px,#d2d2d2 21px,#d2d2d2 22px);}
+  .panel{border:2px solid var(--ink);border-radius:12px;background:var(--panel);padding:8px;}
+
+  /* ===== HEADER ===== */
+  .header{display:flex;gap:12px;height:98px;flex:none;align-items:flex-start;}
+  .banner{flex:0 0 220px;display:flex;flex-direction:column;}
+  .brand{display:flex;align-items:center;gap:4px;border:2.5px solid var(--ink);
+         border-radius:8px 30px 8px 30px;height:44px;padding:0 12px 0 6px;}
+  .brand img{height:36px;width:auto;object-fit:contain;}
+  .brand span{font-family:'Cinzel',serif;font-weight:700;font-size:15px;letter-spacing:.3px;line-height:1;white-space:nowrap;}
+  .banner .line{border-bottom:1.5px solid var(--ink);margin-top:30px;}
+  .banner .tag{font-size:10.5px;letter-spacing:1.6px;color:#666;padding-top:3px;text-align:center;}
+  .scroll{flex:1;align-self:stretch;border:2.5px solid var(--ink);border-radius:34px;
+          padding:14px 24px;display:flex;flex-direction:column;justify-content:flex-end;}
+  .fields{display:flex;gap:20px;align-items:flex-end;}
+  .field{flex:var(--grow,1);display:flex;flex-direction:column;}
+  .field .line{border-bottom:1.4px solid var(--rule);height:16px;}
+  .field .tag{font-size:10px;letter-spacing:1.3px;color:#444;padding-top:3px;}
+
+  /* ===== BODY ===== */
+  .body{display:flex;gap:10px;flex:1;min-height:0;margin-top:10px;}
+  .col-left{flex:0 0 234px;display:flex;flex-direction:column;gap:8px;min-height:0;}
+  .stack{flex:1;display:flex;flex-direction:column;gap:9px;min-height:0;}
+
+  /* ---- abilities ---- */
+  .abilities{border:2px solid var(--ink);border-radius:14px;background:var(--abil);
+             padding:9px 10px;display:flex;flex-direction:column;gap:7px;flex:none;}
+  .pill{display:flex;align-items:center;border:2px solid var(--ink);border-radius:16px;
+        height:28px;background:#fff;overflow:hidden;}
+  .pill__icon{flex:0 0 34px;height:100%;border-right:2px solid var(--ink);
+              display:flex;align-items:center;justify-content:center;}
+  .pill__icon i{width:18px;height:18px;border:1.6px solid var(--ink);border-radius:4px;}
+  .pill__icon.diamond i{transform:rotate(45deg);}
+  .pill__name{flex:1;text-align:center;font-weight:600;font-size:10.5px;letter-spacing:.8px;}
+
+  .ability{display:flex;align-items:center;position:relative;}
+  .ability__score{position:relative;width:70px;height:78px;flex:none;
+                  border:2px solid var(--ink);border-radius:9px;background:#fff;}
+  .ability__score .score{position:absolute;top:7px;left:50%;transform:translateX(-50%);
+                          width:44px;height:26px;border:2px solid var(--ink);border-radius:5px;}
+  .ability__score .tri{position:absolute;top:35px;left:50%;transform:translateX(-50%);width:0;height:0;
+                       border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid var(--ink);}
+  .ability__score .name{position:absolute;bottom:6px;left:0;right:0;text-align:center;
+                        font-weight:700;font-size:8.5px;letter-spacing:.2px;}
+  .ability__score .name.sm{font-size:8px;letter-spacing:0;}
+  .connector{width:10px;height:2px;background:var(--ink);}
+  .skills{display:flex;flex-direction:column;gap:6px;border-left:2px solid var(--ink);padding-left:8px;}
+  .skills.tight{gap:5px;}
+  .skill{display:flex;align-items:center;gap:5px;font-size:10.5px;}
+  .skill i{width:12px;height:12px;border:1.5px solid var(--ink);border-radius:50%;flex:none;}
+  .skill u{width:20px;border-bottom:1.5px solid var(--ink);height:12px;flex:none;}
+  .init{position:absolute;right:-6px;top:50%;transform:translateY(-50%);width:46px;height:30px;
+        border:2px solid var(--ink);border-radius:8px;background:#fff;display:flex;align-items:flex-end;
+        justify-content:center;text-align:center;font-size:7px;font-weight:700;letter-spacing:.2px;
+        line-height:1;padding-bottom:3px;z-index:6;}
+
+  /* ---- knacks ---- */
+  .knacks{flex:1;min-height:0;border:2px solid var(--ink);border-radius:14px;position:relative;overflow:hidden;}
+  .knacks .cap{position:absolute;bottom:0;left:0;right:0;text-align:center;font-weight:700;
+               font-size:11px;letter-spacing:1px;background:#fff;padding:5px 0 7px;}
+
+  /* ---- defenses / combat column ---- */
+  .top{display:flex;gap:9px;flex:none;}
+  .defenses{flex:0 0 248px;display:flex;flex-direction:column;gap:8px;}
+  .def-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:7px;flex:1;}
+  .def-cell{border:2px solid var(--ink);border-radius:7px;background:#fff;height:44px;display:flex;
+            align-items:flex-start;padding:3px 5px;font-size:8px;font-weight:700;letter-spacing:.2px;}
+  .speeds{flex:0 0 80px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;
+          font-size:9.5px;font-weight:700;letter-spacing:.4px;}
+  .hp{height:94px;display:flex;overflow:hidden;}
+  .hp__left{flex:0 0 58px;border-right:2px solid var(--ink);display:flex;flex-direction:column;}
+  .hp__cell{flex:1;position:relative;}
+  .hp__cell.divider{border-bottom:2px solid var(--ink);}
+  .hp__cell .sub{position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:8px;
+                 color:#9d9d9d;font-weight:700;letter-spacing:.2px;}
+  .hp__right{flex:1;position:relative;}
+
+  /* ---- weapons / on hit / major effects ---- */
+  .weapons{flex:1;min-height:0;border:2px solid var(--ink);border-radius:12px;background:#fff;
+           display:flex;flex-direction:column;overflow:hidden;position:relative;}
+  .wp-head{display:flex;gap:7px;padding:8px 9px 4px;}
+  .wp-head>div{font-size:9px;letter-spacing:.4px;color:var(--muted);font-weight:600;}
+  .wp-head .w-name{letter-spacing:.6px;}
+  .wp-row{display:flex;gap:7px;padding:0 9px 6px;}
+  .bars{padding:0 9px;display:flex;flex-direction:column;gap:6px;}
+  .bar{height:22px;background:var(--fill);border-radius:6px;}
+  .bars .bar{height:20px;}
+  .on-hit{flex:1;min-height:0;margin-top:8px;position:relative;
+          background:repeating-linear-gradient(#fff,#fff 23px,#d2d2d2 23px,#d2d2d2 24px);}
+  .on-hit .cap{top:107.5px;bottom:auto;font-size:11px;letter-spacing:1px;transform:translateY(-50%);}
+  .major{text-align:center;font-weight:700;font-size:11px;letter-spacing:1px;padding:6px 0 7px;background:#fff;}
+
+  /* weapon column widths */
+  .w-name{flex:1;} .w-atk{flex:0 0 60px;} .w-dmg{flex:0 0 86px;} .w-extra{flex:0 0 72px;}
+
+  /* ===== PAGES 2 & 3 ===== */
+  .sheet--break{break-before:page;}
+  .ruled19{background:repeating-linear-gradient(#fff,#fff 19px,#d2d2d2 19px,#d2d2d2 20px);}
+  .body-v{display:flex;flex-direction:column;gap:10px;flex:1;min-height:0;}
+  .spacer{flex:1;}
+
+  /* generic titled card */
+  .card{border:2px solid var(--ink);border-radius:14px;background:#fff;
+        display:flex;flex-direction:column;overflow:hidden;min-height:0;}
+  .card__title{font-weight:700;font-size:13px;letter-spacing:.8px;padding:7px 12px 5px;flex:none;}
+
+  /* horizontal label + write-on line */
+  .inline-field{display:flex;align-items:flex-end;gap:6px;}
+  .inline-field>label{font-size:9.5px;font-weight:600;color:#444;letter-spacing:.3px;white-space:nowrap;}
+  .inline-field>.line{flex:1;border-bottom:1.4px solid var(--rule);height:13px;}
+
+  /* page 2 — features & traits */
+  .feat-cols{flex:1;min-height:0;display:flex;gap:18px;padding:0 12px 10px;}
+  .feat-cols>div{flex:1;}
+
+  /* page 2 — combat maneuvers */
+  .cm-head{display:flex;gap:10px;align-items:flex-start;padding:7px 12px 4px;flex:none;}
+  .cm-head__left{flex:1;display:flex;flex-direction:column;gap:7px;padding-top:1px;}
+  .cm-titlerow{display:flex;align-items:flex-end;gap:10px;}
+  .exertion{flex:0 0 124px;border:2px solid var(--ink);border-radius:8px;background:#fff;height:48px;
+            display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:5px;text-align:center;}
+  .exertion b{font-weight:700;font-size:9.5px;letter-spacing:.3px;line-height:1.1;}
+  .exertion small{font-size:6.5px;color:#8a8a8a;font-weight:600;letter-spacing:.2px;}
+  .cm-cols{display:flex;gap:9px;padding:4px 12px 3px;flex:none;}
+  .cm-cols>div{font-size:9px;letter-spacing:.3px;color:var(--muted);font-weight:600;}
+  .cm-cols>.c-man{flex:1;letter-spacing:.5px;}
+  .cm-rows{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-evenly;padding:0 12px 9px;}
+  .cm-row{display:flex;gap:9px;align-items:flex-end;}
+  .cm-row>.uline{border-bottom:1.4px solid #b4b4b4;height:13px;}
+  .c-man{flex:1;} .c-cost,.c-act{flex:0 0 74px;}
+
+  /* page 3 — spells */
+  .spell-cols{display:flex;gap:10px;flex:1;min-height:0;}
+  .spell-col{flex:1;display:flex;flex-direction:column;gap:10px;min-height:0;}
+  .spell{flex:var(--g,1);min-height:0;border:2px solid var(--ink);border-radius:12px;background:#fff;
+         display:flex;flex-direction:column;overflow:hidden;}
+  .spell__head{display:flex;align-items:center;gap:8px;padding:4px 9px;border-bottom:2px solid var(--ink);background:var(--abil);flex:none;}
+  .spell__name{font-weight:700;font-size:11px;letter-spacing:.9px;}
+  .spell__name.lvl{font-size:10px;letter-spacing:.8px;}
+  .spell__count{border:2px solid var(--ink);border-radius:6px;background:#fff;width:56px;height:26px;
+                display:flex;align-items:flex-end;justify-content:center;padding-bottom:2px;}
+  .spell__count span{font-size:6px;font-weight:700;color:#8a8a8a;letter-spacing:.2px;}
+  .lvl-badge{width:24px;height:24px;border:2px solid var(--ink);border-radius:50%;background:#fff;
+             display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex:none;}
+  .spell__fill{flex:1;min-height:0;}
 </style>
 </head>
 <body>
-<div class="screen-pad" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:24px;padding:24px;background:#8f8f8f;">
-<div class="sheet" style="width:816px;height:1056px;background:#fff;box-shadow:0 10px 50px rgba(0,0,0,.45);padding:14px;display:flex;flex-direction:column;color:#141414;font-family:'Barlow Semi Condensed',sans-serif;">
+<div class="screen-pad">
+  <div class="sheet">
 
-  <!-- ============ HEADER ============ -->
-  <div style="display:flex;gap:12px;height:98px;flex:none;align-items:flex-start;">
-    <!-- banner -->
-    <div style="flex:0 0 220px;display:flex;flex-direction:column;justify-content:flex-start;">
-      <div style="display:flex;align-items:center;gap:4px;border:2.5px solid #141414;border-radius:8px 30px 8px 30px;height:44px;padding:0 12px 0 6px;background:#fff;">
-        <img src="assets/emblem.png" alt="emblem" style="height:36px;width:auto;object-fit:contain;">
-        <div style="font-family:'Cinzel',serif;font-weight:700;font-size:15px;letter-spacing:.3px;line-height:1;white-space:nowrap;">SPIES &amp; SPIDERS</div>
+    <!-- ============ HEADER ============ -->
+    <header class="header">
+      <div class="banner">
+        <div class="brand"><img src="assets/emblem.png" alt="emblem"><span>SPIES &amp; SPIDERS</span></div>
+        <div class="line"></div>
+        <div class="tag">CHARACTER NAME</div>
       </div>
-      <div style="border-bottom:1.5px solid #141414;margin-top:30px;"></div>
-      <div style="font-size:10.5px;letter-spacing:1.6px;color:#666;padding-top:3px;text-align:center;">CHARACTER NAME</div>
-    </div>
-    <!-- scroll -->
-    <div style="flex:1;align-self:stretch;border:2.5px solid #141414;border-radius:34px;padding:14px 24px;display:flex;flex-direction:column;justify-content:flex-end;">
-      <div style="display:flex;gap:20px;align-items:flex-end;">
-        <div style="flex:1.6;display:flex;flex-direction:column;"><div style="border-bottom:1.4px solid #9a9a9a;height:16px;"></div><div style="font-size:10px;letter-spacing:1.3px;color:#444;padding-top:3px;">CLASS</div></div>
-        <div style="flex:0.7;display:flex;flex-direction:column;"><div style="border-bottom:1.4px solid #9a9a9a;height:16px;"></div><div style="font-size:10px;letter-spacing:1.3px;color:#444;padding-top:3px;">LEVEL</div></div>
-        <div style="flex:0.7;display:flex;flex-direction:column;"><div style="border-bottom:1.4px solid #9a9a9a;height:16px;"></div><div style="font-size:10px;letter-spacing:1.3px;color:#444;padding-top:3px;">AGE</div></div>
-        <div style="flex:2;display:flex;flex-direction:column;"><div style="border-bottom:1.4px solid #9a9a9a;height:16px;"></div><div style="font-size:10px;letter-spacing:1.3px;color:#444;padding-top:3px;">PLAYER NAME</div></div>
+      <div class="scroll">
+        <div class="fields">
+          <label class="field" style="--grow:1.6"><span class="line"></span><span class="tag">CLASS</span></label>
+          <label class="field" style="--grow:.7"><span class="line"></span><span class="tag">LEVEL</span></label>
+          <label class="field" style="--grow:.7"><span class="line"></span><span class="tag">AGE</span></label>
+          <label class="field" style="--grow:2"><span class="line"></span><span class="tag">PLAYER NAME</span></label>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============ BODY ============ -->
+    <div class="body">
+
+      <!-- ===== LEFT COLUMN ===== -->
+      <div class="col-left">
+        <div class="abilities">
+          <div class="pill"><div class="pill__icon"><i></i></div><div class="pill__name">PROFICIENCY BONUS</div></div>
+          <div class="pill"><div class="pill__icon diamond"><i></i></div><div class="pill__name">INSPIRATION</div></div>
+
+          <!-- one .ability block per stat; skill = <i> dot + <u> line + label -->
+          <div class="ability">
+            <div class="ability__score"><div class="score"></div><div class="tri"></div><div class="name">STRENGTH</div></div>
+            <div class="connector"></div>
+            <div class="skills">
+              <div class="skill"><i></i><u></u>ATHLETICS</div>
+              <div class="skill"><i></i><u></u>BRAWN</div>
+            </div>
+          </div>
+
+          <div class="ability">
+            <div class="ability__score"><div class="score"></div><div class="tri"></div><div class="name">DEXTERITY</div></div>
+            <div class="connector"></div>
+            <div class="skills">
+              <div class="skill"><i></i><u></u>FINESSE</div>
+              <div class="skill"><i></i><u></u>STEALTH</div>
+            </div>
+            <div class="init">INITIATIVE</div>
+          </div>
+
+          <div class="ability">
+            <div class="ability__score"><div class="score"></div><div class="tri"></div><div class="name sm">INTELLIGENCE</div></div>
+            <div class="connector"></div>
+            <div class="skills tight">
+              <div class="skill"><i></i><u></u>HISTORY</div>
+              <div class="skill"><i></i><u></u>MAGISCIENCE</div>
+              <div class="skill"><i></i><u></u>MEDICINE</div>
+              <div class="skill"><i></i><u></u>NATURE</div>
+            </div>
+          </div>
+
+          <div class="ability">
+            <div class="ability__score"><div class="score"></div><div class="tri"></div><div class="name">WISDOM</div></div>
+            <div class="connector"></div>
+            <div class="skills tight">
+              <div class="skill"><i></i><u></u>INSIGHT</div>
+              <div class="skill"><i></i><u></u>INVESTIGATION</div>
+              <div class="skill"><i></i><u></u>PERCEPTION</div>
+              <div class="skill"><i></i><u></u>SURVIVAL</div>
+            </div>
+          </div>
+
+          <div class="ability">
+            <div class="ability__score"><div class="score"></div><div class="tri"></div><div class="name">CHARISMA</div></div>
+            <div class="connector"></div>
+            <div class="skills">
+              <div class="skill"><i></i><u></u>DECEPTION</div>
+              <div class="skill"><i></i><u></u>INTIMIDATION</div>
+              <div class="skill"><i></i><u></u>PERSUASION</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="knacks ruled"><div class="cap">KNACKS</div></div>
+      </div>
+
+      <!-- ===== RIGHT REGION ===== -->
+      <div class="stack">
+
+        <div class="top">
+          <!-- defenses / combat -->
+          <div class="panel defenses">
+            <div class="row">
+              <div class="def-grid">
+                <div class="def-cell">ARMOUR</div>
+                <div class="def-cell">FORTITUDE</div>
+                <div class="def-cell">REFLEX</div>
+                <div class="def-cell">WILL</div>
+              </div>
+              <div class="box speeds">SPEEDS</div>
+            </div>
+
+            <div class="box hp">
+              <div class="hp__left">
+                <div class="hp__cell divider"><div class="sub">MAX HP</div></div>
+                <div class="hp__cell"><div class="sub">HIT DIE</div></div>
+              </div>
+              <div class="hp__right"><div class="cap">RESISTANCES &amp; BARRIER</div></div>
+            </div>
+
+            <div class="row" style="height:92px">
+              <div class="box" style="flex:1"><div class="cap sm">CRIT DAMAGE BONUS</div></div>
+              <div class="box" style="flex:1.25"><div class="cap sm">ON CRIT</div></div>
+            </div>
+
+            <div class="box" style="height:72px"><div class="cap">ON INITIATIVE</div></div>
+          </div>
+
+          <!-- when hit / quick reference -->
+          <div class="stack">
+            <div class="panel">
+              <div class="row" style="height:150px">
+                <div class="box" style="flex:1"><div class="cap mid">WHEN HIT</div></div>
+                <div class="box" style="flex:1"><div class="cap mid">WHEN NOT HIT</div></div>
+              </div>
+            </div>
+            <div class="panel" style="flex:1;display:flex;min-height:0">
+              <div class="box" style="flex:1"><div class="cap">QUICK REFERENCE</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- weapons / on hit / major effects -->
+        <div class="weapons">
+          <div class="wp-head">
+            <div class="w-name">WEAPON/ATTACK NAME</div>
+            <div class="w-atk">ATK BONUS</div>
+            <div class="w-dmg">DAMAGE/TYPE</div>
+            <div class="w-extra">EXTRA</div>
+          </div>
+          <div class="wp-row">
+            <div class="bar w-name"></div>
+            <div class="bar w-atk"></div>
+            <div class="bar w-dmg"></div>
+            <div class="bar w-extra"></div>
+          </div>
+          <div class="bars">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+          </div>
+          <div class="on-hit"><div class="cap">ON HIT</div></div>
+          <div class="major">MAJOR EFFECTS</div>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- ============ BODY ============ -->
-  <div style="display:flex;gap:10px;flex:1;min-height:0;margin-top:10px;">
+  <!-- ============ PAGE 2 ============ -->
+  <div class="sheet sheet--break">
+    <div class="body-v">
 
-    <!-- ===== LEFT COLUMN ===== -->
-    <div style="flex:0 0 234px;display:flex;flex-direction:column;gap:8px;min-height:0;">
-      <!-- abilities panel -->
-      <div style="border:2px solid #141414;border-radius:14px;background:#e9e9e9;padding:9px 10px;display:flex;flex-direction:column;gap:7px;flex:none;">
-        <!-- proficiency / inspiration pills -->
-        <div style="display:flex;align-items:center;border:2px solid #141414;border-radius:16px;height:28px;background:#fff;overflow:hidden;">
-          <div style="flex:0 0 34px;height:100%;border-right:2px solid #141414;display:flex;align-items:center;justify-content:center;"><div style="width:18px;height:18px;border:1.6px solid #141414;border-radius:4px;"></div></div>
-          <div style="flex:1;text-align:center;font-weight:600;font-size:10.5px;letter-spacing:.8px;">PROFICIENCY BONUS</div>
-        </div>
-        <div style="display:flex;align-items:center;border:2px solid #141414;border-radius:16px;height:28px;background:#fff;overflow:hidden;">
-          <div style="flex:0 0 34px;height:100%;border-right:2px solid #141414;display:flex;align-items:center;justify-content:center;"><div style="width:18px;height:18px;border:1.6px solid #141414;border-radius:4px;transform:rotate(45deg);"></div></div>
-          <div style="flex:1;text-align:center;font-weight:600;font-size:10.5px;letter-spacing:.8px;">INSPIRATION</div>
-        </div>
-
-        <!-- STRENGTH -->
-        <div style="display:flex;align-items:center;position:relative;">
-          <div style="position:relative;width:70px;height:78px;flex:none;border:2px solid #141414;border-radius:9px;background:#fff;">
-            <div style="position:absolute;top:7px;left:50%;transform:translateX(-50%);width:44px;height:26px;border:2px solid #141414;border-radius:5px;"></div>
-            <div style="position:absolute;top:35px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid #141414;"></div>
-            <div style="position:absolute;bottom:6px;left:0;right:0;text-align:center;font-weight:700;font-size:8.5px;letter-spacing:.2px;">STRENGTH</div>
-          </div>
-          <div style="width:10px;height:2px;background:#141414;"></div>
-          <div style="display:flex;flex-direction:column;gap:6px;border-left:2px solid #141414;padding-left:8px;">
-            <div style="display:flex;align-items:center;gap:5px;"><div style="width:12px;height:12px;border:1.5px solid #141414;border-radius:50%;flex:none;"></div><div style="width:20px;border-bottom:1.5px solid #141414;height:12px;flex:none;"></div><div style="font-size:10.5px;">ATHLETICS</div></div>
-            <div style="display:flex;align-items:center;gap:5px;"><div style="width:12px;height:12px;border:1.5px solid #141414;border-radius:50%;flex:none;"></div><div style="width:20px;border-bottom:1.5px solid #141414;height:12px;flex:none;"></div><div style="font-size:10.5px;">BRAWN</div></div>
-          </div>
-        </div>
-
-        <!-- DEXTERITY -->
-        <div style="display:flex;align-items:center;position:relative;">
-          <div style="position:relative;width:70px;height:78px;flex:none;border:2px solid #141414;border-radius:9px;background:#fff;">
-            <div style="position:absolute;top:7px;left:50%;transform:translateX(-50%);width:44px;height:26px;border:2px solid #141414;border-radius:5px;"></div>
-            <div style="position:absolute;top:35px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid #141414;"></div>
-            <div style="position:absolute;bottom:6px;left:0;right:0;text-align:center;font-weight:700;font-size:8.5px;letter-spacing:.2px;">DEXTERITY</div>
-          </div>
-          <div style="width:10px;height:2px;background:#141414;"></div>
-          <div style="display:flex;flex-direction:column;gap:6px;border-left:2px solid #141414;padding-left:8px;">
-            <div style="display:flex;align-items:center;gap:5px;"><div style="width:12px;height:12px;border:1.5px solid #141414;border-radius:50%;flex:none;"></div><div style="width:20px;border-bottom:1.5px solid #141414;height:12px;flex:none;"></div><div style="font-size:10.5px;">FINESSE</div></div>
-            <div style="display:flex;align-items:center;gap:5px;"><div style="width:12px;height:12px;border:1.5px solid #141414;border-radius:50%;flex:none;"></div><div style="width:20px;border-bottom:1.5px solid #141414;height:12px;flex:none;"></div><div style="font-size:10.5px;">STEALTH</div></div>
-          </div>
-          <div style="position:absolute;right:-6px;top:50%;transform:translateY(-50%);width:46px;height:30px;border:2px solid #141414;border-radius:8px;background:#fff;display:flex;align-items:flex-end;justify-content:center;text-align:center;font-size:7px;font-weight:700;letter-spacing:.2px;line-height:1;padding-bottom:3px;z-index:6;">INITIATIVE</div>
-        </div>
-
-        <!-- INTELLIGENCE -->
-        <div style="display:flex;align-items:center;position:relative;">
-          <div style="position:relative;width:70px;height:78px;flex:none;border:2px solid #141414;border-radius:9px;background:#fff;">
-            <div style="position:absolute;top:7px;left:50%;transform:translateX(-50%);width:44px;height:26px;border:2px solid #141414;border-radius:5px;"></div>
-            <div style="position:absolute;top:35px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid #141414;"></div>
-            <div style="position:absolute;bottom:6px;left:0;right:0;text-align:center;font-weight:700;font-size:8px;letter-spacing:0;">INTELLIGENCE</div>
-          </div>
-          <div style="width:10px;height:2px;background:#141414;"></div>
-          <div style="display:flex;flex-direction:column;gap:5px;border-left:2px solid #141414;padding-left:8px;">
-            <div style="display:flex;align-items:center;gap:5px;"><div style="width:12px;height:12px;border:1.5px solid #141414;border-radius:50%;flex:none;"></div><div style="width:20px;border-bottom:1.5px solid #141414;height:12px;flex:none;"></div><div style="font-size:10.5px;">HISTORY</div></div>
-            <div style="display:flex;align-items:center;gap:5px;"><div style="width:12px;height:12px;border:1.5px solid #141414;border-radius:50%;flex:none;"></div><div style="width:20px;border-bottom:1.5px solid #141414;height:12px;flex:none;"></div><div style="font-size:10.5px;">MAGISCIENCE</div></div>
-            <div style="display:flex;align-items:center;gap:5px;"><div style="width:12px;height:12px;border:1.5px solid #141414;border-radius:50%;flex:none;"></div><div style="width:20px;border-bottom:1.5px solid #141414;height:12px;flex:none;"></div><div style="font-size:10.5px;">MEDICINE</div></div>
-            <div style="display:flex;align-items:center;gap:5px;"><div style="width:12px;height:12px;border:1.5px solid #141414;border-radius:50%;flex:none;"></div><div style="width:20px;border-bottom:1.5px solid #141414;height:12px;flex:none;"></div><div style="font-size:10.5px;">NATURE</div></div>
-          </div>
-        </div>
-
-        <!-- WISDOM -->
-        <div style="display:flex;align-items:center;position:relative;">
-          <div style="position:relative;width:70px;height:78px;flex:none;border:2px solid #141414;border-radius:9px;background:#fff;">
-            <div style="position:absolute;top:7px;left:50%;transform:translateX(-50%);width:44px;height:26px;border:2px solid #141414;border-radius:5px;"></div>
-            <div style="position:absolute;top:35px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid #141414;"></div>
-            <div style="position:absolute;bottom:6px;left:0;right:0;text-align:center;font-weight:700;font-size:8.5px;letter-spacing:.2px;">WISDOM</div>
-          </div>
-          <div style="width:10px;height:2px;background:#141414;"></div>
-          <div style="display:flex;flex-direction:column;gap:5px;border-left:2px solid #141414;padding-left:8px;">
-            <div style="display:flex;align-items:center;gap:5px;"><div style="width:12px;height:12px;border:1.5px solid #141414;border-radius:50%;flex:none;"></div><div style="width:20px;border-bottom:1.5px solid #141414;height:12px;flex:none;"></div><div style="font-size:10.5px;">INSIGHT</div></div>
-            <div style="display:flex;align-items:center;gap:5px;"><div style="width:12px;height:12px;border:1.5px solid #141414;border-radius:50%;flex:none;"></div><div style="width:20px;border-bottom:1.5px solid #141414;height:12px;flex:none;"></div><div style="font-size:10.5px;">INVESTIGATION</div></div>
-            <div style="display:flex;align-items:center;gap:5px;"><div style="width:12px;height:12px;border:1.5px solid #141414;border-radius:50%;flex:none;"></div><div style="width:20px;border-bottom:1.5px solid #141414;height:12px;flex:none;"></div><div style="font-size:10.5px;">PERCEPTION</div></div>
-            <div style="display:flex;align-items:center;gap:5px;"><div style="width:12px;height:12px;border:1.5px solid #141414;border-radius:50%;flex:none;"></div><div style="width:20px;border-bottom:1.5px solid #141414;height:12px;flex:none;"></div><div style="font-size:10.5px;">SURVIVAL</div></div>
-          </div>
-        </div>
-
-        <!-- CHARISMA -->
-        <div style="display:flex;align-items:center;position:relative;">
-          <div style="position:relative;width:70px;height:78px;flex:none;border:2px solid #141414;border-radius:9px;background:#fff;">
-            <div style="position:absolute;top:7px;left:50%;transform:translateX(-50%);width:44px;height:26px;border:2px solid #141414;border-radius:5px;"></div>
-            <div style="position:absolute;top:35px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid #141414;"></div>
-            <div style="position:absolute;bottom:6px;left:0;right:0;text-align:center;font-weight:700;font-size:8.5px;letter-spacing:.2px;">CHARISMA</div>
-          </div>
-          <div style="width:10px;height:2px;background:#141414;"></div>
-          <div style="display:flex;flex-direction:column;gap:6px;border-left:2px solid #141414;padding-left:8px;">
-            <div style="display:flex;align-items:center;gap:5px;"><div style="width:12px;height:12px;border:1.5px solid #141414;border-radius:50%;flex:none;"></div><div style="width:20px;border-bottom:1.5px solid #141414;height:12px;flex:none;"></div><div style="font-size:10.5px;">DECEPTION</div></div>
-            <div style="display:flex;align-items:center;gap:5px;"><div style="width:12px;height:12px;border:1.5px solid #141414;border-radius:50%;flex:none;"></div><div style="width:20px;border-bottom:1.5px solid #141414;height:12px;flex:none;"></div><div style="font-size:10.5px;">INTIMIDATION</div></div>
-            <div style="display:flex;align-items:center;gap:5px;"><div style="width:12px;height:12px;border:1.5px solid #141414;border-radius:50%;flex:none;"></div><div style="width:20px;border-bottom:1.5px solid #141414;height:12px;flex:none;"></div><div style="font-size:10.5px;">PERSUASION</div></div>
-          </div>
+      <!-- FEATURES & TRAITS -->
+      <div class="card" style="flex:1.9">
+        <div class="card__title">FEATURES &amp; TRAITS</div>
+        <div class="feat-cols">
+          <div class="ruled"></div>
+          <div class="ruled"></div>
         </div>
       </div>
 
-      <!-- KNACKS -->
-      <div style="flex:1;min-height:0;border:2px solid #141414;border-radius:14px;position:relative;overflow:hidden;background:repeating-linear-gradient(#fff,#fff 21px,#d2d2d2 21px,#d2d2d2 22px);">
-        <div style="position:absolute;bottom:0;left:0;right:0;text-align:center;font-weight:700;font-size:11px;letter-spacing:1px;background:#fff;padding:5px 0 7px;">KNACKS</div>
-      </div>
-    </div>
-
-    <!-- ===== RIGHT REGION ===== -->
-    <div style="flex:1;display:flex;flex-direction:column;gap:9px;min-height:0;">
-
-      <!-- top region -->
-      <div style="display:flex;gap:9px;flex:none;">
-
-        <!-- DEFENSES / COMBAT column -->
-        <div style="flex:0 0 248px;border:2px solid #141414;border-radius:12px;background:#c6c6c6;padding:8px;display:flex;flex-direction:column;gap:8px;">
-          <!-- defense cluster + speeds -->
-          <div style="display:flex;gap:8px;">
-            <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:7px;flex:1;">
-              <div style="border:2px solid #141414;border-radius:7px;background:#fff;height:44px;display:flex;align-items:flex-start;padding:3px 5px;font-size:8px;font-weight:700;letter-spacing:.2px;">ARMOUR</div>
-              <div style="border:2px solid #141414;border-radius:7px;background:#fff;height:44px;display:flex;align-items:flex-start;padding:3px 5px;font-size:8px;font-weight:700;letter-spacing:.2px;">FORTITUDE</div>
-              <div style="border:2px solid #141414;border-radius:7px;background:#fff;height:44px;display:flex;align-items:flex-start;padding:3px 5px;font-size:8px;font-weight:700;letter-spacing:.2px;">REFLEX</div>
-              <div style="border:2px solid #141414;border-radius:7px;background:#fff;height:44px;display:flex;align-items:flex-start;padding:3px 5px;font-size:8px;font-weight:700;letter-spacing:.2px;">WILL</div>
+      <!-- COMBAT MANEUVERS -->
+      <div class="card" style="flex:1.35">
+        <div class="cm-head">
+          <div class="cm-head__left">
+            <div class="cm-titlerow">
+              <div class="card__title" style="padding:0">COMBAT MANEUVERS</div>
+              <div class="inline-field" style="flex:1"><label>MANEUVERS KNOWN</label><div class="line"></div></div>
             </div>
-            <div style="flex:0 0 80px;border:2px solid #141414;border-radius:8px;background:#fff;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;font-size:9.5px;font-weight:700;letter-spacing:.4px;">SPEEDS</div>
+            <div class="inline-field" style="margin-top:7px"><label>TRADITIONS KNOWN</label><div class="line"></div></div>
           </div>
-          <!-- HP -->
-          <div style="border:2px solid #141414;border-radius:8px;background:#fff;height:94px;display:flex;overflow:hidden;">
-            <div style="flex:0 0 58px;border-right:2px solid #141414;display:flex;flex-direction:column;">
-              <div style="flex:1;border-bottom:2px solid #141414;position:relative;">
-                <div style="position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:8px;color:#9d9d9d;font-weight:700;letter-spacing:.2px;">MAX HP</div>
-              </div>
-              <div style="flex:1;position:relative;">
-                <div style="position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:8px;color:#9d9d9d;font-weight:700;letter-spacing:.2px;">HIT DIE</div>
-              </div>
-            </div>
-            <div style="flex:1;position:relative;">
-              <div style="position:absolute;bottom:7px;left:0;right:0;text-align:center;font-size:10px;font-weight:700;letter-spacing:.4px;">RESISTANCES &amp; BARRIER</div>
-            </div>
-          </div>
-          <!-- crit + death -->
-          <div style="display:flex;gap:8px;height:92px;">
-            <div style="flex:1;border:2px solid #141414;border-radius:8px;background:#fff;position:relative;">
-              <div style="position:absolute;bottom:7px;left:0;right:0;text-align:center;font-size:9px;font-weight:700;letter-spacing:.2px;">CRIT DAMAGE BONUS</div>
-            </div>
-            <div style="flex:1.25;border:2px solid #141414;border-radius:8px;background:#fff;position:relative;">
-              <div style="position:absolute;bottom:7px;left:0;right:0;text-align:center;font-size:9px;font-weight:700;letter-spacing:.2px;">ON CRIT</div>
-            </div>
-          </div>
-          <!-- on initiative -->
-          <div style="border:2px solid #141414;border-radius:8px;background:#fff;height:72px;position:relative;">
-            <div style="position:absolute;bottom:7px;left:0;right:0;text-align:center;font-size:10px;font-weight:700;letter-spacing:.4px;">ON INITIATIVE</div>
-          </div>
+          <div class="exertion"><b>EXERTION POINTS</b><small>2 × PROFICIENCY BONUS</small></div>
         </div>
-
-        <!-- WHEN HIT / QUICK REF column -->
-        <div style="flex:1;display:flex;flex-direction:column;gap:9px;">
-          <!-- when hit / not hit -->
-          <div style="border:2px solid #141414;border-radius:12px;background:#c6c6c6;padding:8px;">
-            <div style="display:flex;gap:8px;height:150px;">
-              <div style="flex:1;border:2px solid #141414;border-radius:8px;background:#fff;position:relative;">
-                <div style="position:absolute;bottom:7px;left:0;right:0;text-align:center;font-size:9.5px;font-weight:700;letter-spacing:.3px;">WHEN HIT</div>
-              </div>
-              <div style="flex:1;border:2px solid #141414;border-radius:8px;background:#fff;position:relative;">
-                <div style="position:absolute;bottom:7px;left:0;right:0;text-align:center;font-size:9.5px;font-weight:700;letter-spacing:.3px;">WHEN NOT HIT</div>
-              </div>
-            </div>
-          </div>
-          <!-- quick reference -->
-          <div style="flex:1;border:2px solid #141414;border-radius:12px;background:#c6c6c6;padding:8px;display:flex;min-height:0;">
-            <div style="flex:1;border:2px solid #141414;border-radius:8px;background:#fff;position:relative;">
-              <div style="position:absolute;bottom:7px;left:0;right:0;text-align:center;font-size:10px;font-weight:700;letter-spacing:.4px;">QUICK REFERENCE</div>
-            </div>
-          </div>
+        <div class="cm-cols">
+          <div class="c-man">MANEUVER</div>
+          <div class="c-cost">EXERTION COST</div>
+          <div class="c-act">ACTIVATION</div>
         </div>
-      </div>
-
-      <!-- WEAPONS / ON HIT / MAJOR EFFECTS -->
-      <div style="flex:1;min-height:0;border:2px solid #141414;border-radius:12px;background:#fff;display:flex;flex-direction:column;overflow:hidden;position:relative;">
-        <!-- column labels -->
-        <div style="display:flex;gap:7px;padding:8px 9px 4px;">
-          <div style="flex:1;font-size:9px;letter-spacing:.6px;color:#6c6c6c;font-weight:600;">WEAPON/ATTACK NAME</div>
-          <div style="flex:0 0 60px;font-size:9px;letter-spacing:.4px;color:#6c6c6c;font-weight:600;">ATK BONUS</div>
-          <div style="flex:0 0 86px;font-size:9px;letter-spacing:.4px;color:#6c6c6c;font-weight:600;">DAMAGE/TYPE</div>
-          <div style="flex:0 0 72px;font-size:9px;letter-spacing:.4px;color:#6c6c6c;font-weight:600;">EXTRA</div>
+        <div class="cm-rows">
+          <div class="cm-row"><div class="uline c-man"></div><div class="uline c-cost"></div><div class="uline c-act"></div></div>
+          <div class="cm-row"><div class="uline c-man"></div><div class="uline c-cost"></div><div class="uline c-act"></div></div>
+          <div class="cm-row"><div class="uline c-man"></div><div class="uline c-cost"></div><div class="uline c-act"></div></div>
+          <div class="cm-row"><div class="uline c-man"></div><div class="uline c-cost"></div><div class="uline c-act"></div></div>
+          <div class="cm-row"><div class="uline c-man"></div><div class="uline c-cost"></div><div class="uline c-act"></div></div>
+          <div class="cm-row"><div class="uline c-man"></div><div class="uline c-cost"></div><div class="uline c-act"></div></div>
+          <div class="cm-row"><div class="uline c-man"></div><div class="uline c-cost"></div><div class="uline c-act"></div></div>
+          <div class="cm-row"><div class="uline c-man"></div><div class="uline c-cost"></div><div class="uline c-act"></div></div>
+          <div class="cm-row"><div class="uline c-man"></div><div class="uline c-cost"></div><div class="uline c-act"></div></div>
+          <div class="cm-row"><div class="uline c-man"></div><div class="uline c-cost"></div><div class="uline c-act"></div></div>
         </div>
-        <!-- first input row -->
-        <div style="display:flex;gap:7px;padding:0 9px 6px;">
-          <div style="flex:1;height:22px;background:#dcdcdc;border-radius:6px;"></div>
-          <div style="flex:0 0 60px;height:22px;background:#dcdcdc;border-radius:6px;"></div>
-          <div style="flex:0 0 86px;height:22px;background:#dcdcdc;border-radius:6px;"></div>
-          <div style="flex:0 0 72px;height:22px;background:#dcdcdc;border-radius:6px;"></div>
-        </div>
-        <!-- extra weapon bars -->
-        <div style="padding:0 9px;display:flex;flex-direction:column;gap:6px;">
-          <div style="height:20px;background:#dcdcdc;border-radius:6px;"></div>
-          <div style="height:20px;background:#dcdcdc;border-radius:6px;"></div>
-          <div style="height:20px;background:#dcdcdc;border-radius:6px;"></div>
-          <div style="height:20px;background:#dcdcdc;border-radius:6px;"></div>
-          <div style="height:20px;background:#dcdcdc;border-radius:6px;"></div>
-        </div>
-        <!-- ruled fill -->
-        <div style="flex:1;min-height:0;margin-top:8px;position:relative;background:repeating-linear-gradient(#fff,#fff 23px,#d2d2d2 23px,#d2d2d2 24px);">
-          <div style="position:absolute;top:107.5px;left:0;right:0;text-align:center;font-size:11px;font-weight:700;letter-spacing:1px;transform:translateY(-50%);">ON HIT</div>
-        </div>
-        <div style="text-align:center;font-weight:700;font-size:11px;letter-spacing:1px;padding:6px 0 7px;background:#fff;">MAJOR EFFECTS</div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ============ PAGE 2 ============ -->
-<div class="sheet" style="width:816px;height:1056px;background:#fff;box-shadow:0 10px 50px rgba(0,0,0,.45);padding:14px;display:flex;flex-direction:column;color:#141414;font-family:'Barlow Semi Condensed',sans-serif;break-before:page;">
+  <!-- ============ PAGE 3 — SPELLS ============ -->
+  <div class="sheet sheet--break">
+    <div class="spell-cols">
 
-  <!-- ============ BODY ============ -->
-  <div style="display:flex;flex-direction:column;gap:10px;flex:1;min-height:0;">
-
-    <!-- FEATURES & TRAITS -->
-    <div style="flex:1.9;min-height:0;border:2px solid #141414;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;background:#fff;">
-      <div style="font-weight:700;font-size:13px;letter-spacing:.8px;padding:7px 12px 5px;flex:none;">FEATURES &amp; TRAITS</div>
-      <div style="flex:1;min-height:0;display:flex;gap:18px;padding:0 12px 10px;">
-        <div style="flex:1;background:repeating-linear-gradient(#fff,#fff 21px,#d2d2d2 21px,#d2d2d2 22px);"></div>
-        <div style="flex:1;background:repeating-linear-gradient(#fff,#fff 21px,#d2d2d2 21px,#d2d2d2 22px);"></div>
-      </div>
-    </div>
-
-    <!-- COMBAT MANEUVERS -->
-    <div style="flex:1.35;min-height:0;border:2px solid #141414;border-radius:14px;display:flex;flex-direction:column;overflow:hidden;background:#fff;">
-      <!-- title row + DC / exertion boxes -->
-      <div style="display:flex;gap:10px;align-items:flex-start;padding:7px 12px 4px;flex:none;">
-        <div style="flex:1;display:flex;flex-direction:column;gap:7px;padding-top:1px;">
-          <div style="display:flex;align-items:flex-end;gap:10px;">
-            <div style="font-weight:700;font-size:13px;letter-spacing:.8px;">COMBAT MANEUVERS</div>
-            <div style="display:flex;align-items:flex-end;gap:6px;flex:1;"><div style="font-size:9.5px;font-weight:600;color:#444;letter-spacing:.3px;white-space:nowrap;">MANEUVERS KNOWN</div><div style="flex:1;border-bottom:1.4px solid #9a9a9a;height:13px;"></div></div>
-          </div>
-          <div style="display:flex;align-items:flex-end;gap:6px;margin-top:7px;"><div style="font-size:9.5px;font-weight:600;color:#444;letter-spacing:.3px;white-space:nowrap;">TRADITIONS KNOWN</div><div style="flex:1;border-bottom:1.4px solid #9a9a9a;height:13px;"></div></div>
+      <!-- COLUMN 1 -->
+      <div class="spell-col">
+        <div class="spell" style="--g:.62">
+          <div class="spell__head"><div class="spell__name">ARCANE UTILITIES</div><div class="spacer"></div><div class="spell__count"><span>TOTAL KNOWN</span></div></div>
+          <div class="spell__fill ruled19"></div>
         </div>
-        <div style="flex:0 0 124px;border:2px solid #141414;border-radius:8px;background:#fff;height:48px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:5px;text-align:center;">
-          <div style="font-weight:700;font-size:9.5px;letter-spacing:.3px;line-height:1.1;">EXERTION POINTS</div>
-          <div style="font-size:6.5px;color:#8a8a8a;font-weight:600;letter-spacing:.2px;">2 × PROFICIENCY BONUS</div>
+        <div class="spell" style="--g:.62">
+          <div class="spell__head"><div class="spell__name">CANTRIPS</div><div class="spacer"></div><div class="spell__count"><span>TOTAL KNOWN</span></div></div>
+          <div class="spell__fill ruled19"></div>
+        </div>
+        <div class="spell" style="--g:1.1">
+          <div class="spell__head"><div class="lvl-badge">1</div><div class="spell__name lvl">1ST LEVEL</div><div class="spacer"></div><div class="spell__count"><span>SLOTS TOTAL</span></div></div>
+          <div class="spell__fill ruled19"></div>
+        </div>
+        <div class="spell" style="--g:1.1">
+          <div class="spell__head"><div class="lvl-badge">2</div><div class="spell__name lvl">2ND LEVEL</div><div class="spacer"></div><div class="spell__count"><span>SLOTS TOTAL</span></div></div>
+          <div class="spell__fill ruled19"></div>
         </div>
       </div>
-      <!-- column labels -->
-      <div style="display:flex;gap:9px;padding:4px 12px 3px;flex:none;">
-        <div style="flex:1;font-size:9px;letter-spacing:.5px;color:#6c6c6c;font-weight:600;">MANEUVER</div>
-        <div style="flex:0 0 74px;font-size:9px;letter-spacing:.3px;color:#6c6c6c;font-weight:600;">EXERTION COST</div>
-        <div style="flex:0 0 74px;font-size:9px;letter-spacing:.3px;color:#6c6c6c;font-weight:600;">ACTIVATION</div>
+
+      <!-- COLUMN 2 -->
+      <div class="spell-col">
+        <div class="spell">
+          <div class="spell__head"><div class="lvl-badge">3</div><div class="spell__name lvl">3RD LEVEL</div><div class="spacer"></div><div class="spell__count"><span>SLOTS TOTAL</span></div></div>
+          <div class="spell__fill ruled19"></div>
+        </div>
+        <div class="spell">
+          <div class="spell__head"><div class="lvl-badge">4</div><div class="spell__name lvl">4TH LEVEL</div><div class="spacer"></div><div class="spell__count"><span>SLOTS TOTAL</span></div></div>
+          <div class="spell__fill ruled19"></div>
+        </div>
+        <div class="spell">
+          <div class="spell__head"><div class="lvl-badge">5</div><div class="spell__name lvl">5TH LEVEL</div><div class="spacer"></div><div class="spell__count"><span>SLOTS TOTAL</span></div></div>
+          <div class="spell__fill ruled19"></div>
+        </div>
       </div>
-      <!-- ruled rows -->
-      <div style="flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-evenly;padding:0 12px 9px;">
-        <div style="display:flex;gap:9px;align-items:flex-end;"><div style="flex:1;border-bottom:1.4px solid #b4b4b4;height:13px;"></div><div style="flex:0 0 74px;border-bottom:1.4px solid #b4b4b4;height:13px;"></div><div style="flex:0 0 74px;border-bottom:1.4px solid #b4b4b4;height:13px;"></div></div>
-        <div style="display:flex;gap:9px;align-items:flex-end;"><div style="flex:1;border-bottom:1.4px solid #b4b4b4;height:13px;"></div><div style="flex:0 0 74px;border-bottom:1.4px solid #b4b4b4;height:13px;"></div><div style="flex:0 0 74px;border-bottom:1.4px solid #b4b4b4;height:13px;"></div></div>
-        <div style="display:flex;gap:9px;align-items:flex-end;"><div style="flex:1;border-bottom:1.4px solid #b4b4b4;height:13px;"></div><div style="flex:0 0 74px;border-bottom:1.4px solid #b4b4b4;height:13px;"></div><div style="flex:0 0 74px;border-bottom:1.4px solid #b4b4b4;height:13px;"></div></div>
-        <div style="display:flex;gap:9px;align-items:flex-end;"><div style="flex:1;border-bottom:1.4px solid #b4b4b4;height:13px;"></div><div style="flex:0 0 74px;border-bottom:1.4px solid #b4b4b4;height:13px;"></div><div style="flex:0 0 74px;border-bottom:1.4px solid #b4b4b4;height:13px;"></div></div>
-        <div style="display:flex;gap:9px;align-items:flex-end;"><div style="flex:1;border-bottom:1.4px solid #b4b4b4;height:13px;"></div><div style="flex:0 0 74px;border-bottom:1.4px solid #b4b4b4;height:13px;"></div><div style="flex:0 0 74px;border-bottom:1.4px solid #b4b4b4;height:13px;"></div></div>
-        <div style="display:flex;gap:9px;align-items:flex-end;"><div style="flex:1;border-bottom:1.4px solid #b4b4b4;height:13px;"></div><div style="flex:0 0 74px;border-bottom:1.4px solid #b4b4b4;height:13px;"></div><div style="flex:0 0 74px;border-bottom:1.4px solid #b4b4b4;height:13px;"></div></div>
-        <div style="display:flex;gap:9px;align-items:flex-end;"><div style="flex:1;border-bottom:1.4px solid #b4b4b4;height:13px;"></div><div style="flex:0 0 74px;border-bottom:1.4px solid #b4b4b4;height:13px;"></div><div style="flex:0 0 74px;border-bottom:1.4px solid #b4b4b4;height:13px;"></div></div>
-        <div style="display:flex;gap:9px;align-items:flex-end;"><div style="flex:1;border-bottom:1.4px solid #b4b4b4;height:13px;"></div><div style="flex:0 0 74px;border-bottom:1.4px solid #b4b4b4;height:13px;"></div><div style="flex:0 0 74px;border-bottom:1.4px solid #b4b4b4;height:13px;"></div></div>
-        <div style="display:flex;gap:9px;align-items:flex-end;"><div style="flex:1;border-bottom:1.4px solid #b4b4b4;height:13px;"></div><div style="flex:0 0 74px;border-bottom:1.4px solid #b4b4b4;height:13px;"></div><div style="flex:0 0 74px;border-bottom:1.4px solid #b4b4b4;height:13px;"></div></div>
-        <div style="display:flex;gap:9px;align-items:flex-end;"><div style="flex:1;border-bottom:1.4px solid #b4b4b4;height:13px;"></div><div style="flex:0 0 74px;border-bottom:1.4px solid #b4b4b4;height:13px;"></div><div style="flex:0 0 74px;border-bottom:1.4px solid #b4b4b4;height:13px;"></div></div>
+
+      <!-- COLUMN 3 -->
+      <div class="spell-col">
+        <div class="spell">
+          <div class="spell__head"><div class="lvl-badge">6</div><div class="spell__name lvl">6TH LEVEL</div><div class="spacer"></div><div class="spell__count"><span>SLOTS TOTAL</span></div></div>
+          <div class="spell__fill ruled19"></div>
+        </div>
+        <div class="spell">
+          <div class="spell__head"><div class="lvl-badge">7</div><div class="spell__name lvl">7TH LEVEL</div><div class="spacer"></div><div class="spell__count"><span>SLOTS TOTAL</span></div></div>
+          <div class="spell__fill ruled19"></div>
+        </div>
+        <div class="spell">
+          <div class="spell__head"><div class="lvl-badge">8</div><div class="spell__name lvl">8TH LEVEL</div><div class="spacer"></div><div class="spell__count"><span>SLOTS TOTAL</span></div></div>
+          <div class="spell__fill ruled19"></div>
+        </div>
+        <div class="spell">
+          <div class="spell__head"><div class="lvl-badge">9</div><div class="spell__name lvl">9TH LEVEL</div><div class="spacer"></div><div class="spell__count"><span>SLOTS TOTAL</span></div></div>
+          <div class="spell__fill ruled19"></div>
+        </div>
       </div>
     </div>
   </div>
 </div>
-
-<!-- ============ PAGE 3 — SPELLS ============ -->
-<div class="sheet" style="width:816px;height:1056px;background:#fff;box-shadow:0 10px 50px rgba(0,0,0,.45);padding:14px;display:flex;flex-direction:column;color:#141414;font-family:'Barlow Semi Condensed',sans-serif;break-before:page;">
-
-  <!-- ============ BODY — 3 columns ============ -->
-  <div style="display:flex;gap:10px;flex:1;min-height:0;">
-
-    <!-- COLUMN 1 -->
-    <div style="flex:1;display:flex;flex-direction:column;gap:10px;min-height:0;">
-      <!-- ARCANE UTILITIES -->
-      <div style="flex:0.62;min-height:0;border:2px solid #141414;border-radius:12px;display:flex;flex-direction:column;overflow:hidden;background:#fff;">
-        <div style="display:flex;align-items:center;gap:8px;padding:4px 9px;border-bottom:2px solid #141414;background:#e9e9e9;flex:none;">
-          <div style="font-weight:700;font-size:11px;letter-spacing:.9px;">ARCANE UTILITIES</div>
-          <div style="flex:1;"></div>
-          <div style="border:2px solid #141414;border-radius:6px;background:#fff;width:56px;height:26px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:2px;"><div style="font-size:6px;font-weight:700;color:#8a8a8a;letter-spacing:.2px;">TOTAL KNOWN</div></div>
-        </div>
-        <div style="flex:1;min-height:0;background:repeating-linear-gradient(#fff,#fff 19px,#d2d2d2 19px,#d2d2d2 20px);"></div>
-      </div>
-      <!-- CANTRIPS -->
-      <div style="flex:0.62;min-height:0;border:2px solid #141414;border-radius:12px;display:flex;flex-direction:column;overflow:hidden;background:#fff;">
-        <div style="display:flex;align-items:center;gap:8px;padding:4px 9px;border-bottom:2px solid #141414;background:#e9e9e9;flex:none;">
-          <div style="font-weight:700;font-size:11px;letter-spacing:.9px;">CANTRIPS</div>
-          <div style="flex:1;"></div>
-          <div style="border:2px solid #141414;border-radius:6px;background:#fff;width:56px;height:26px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:2px;"><div style="font-size:6px;font-weight:700;color:#8a8a8a;letter-spacing:.2px;">TOTAL KNOWN</div></div>
-        </div>
-        <div style="flex:1;min-height:0;background:repeating-linear-gradient(#fff,#fff 19px,#d2d2d2 19px,#d2d2d2 20px);"></div>
-      </div>
-      <!-- LEVEL 1 -->
-      <div style="flex:1.1;min-height:0;border:2px solid #141414;border-radius:12px;display:flex;flex-direction:column;overflow:hidden;background:#fff;">
-        <div style="display:flex;align-items:center;gap:8px;padding:4px 9px;border-bottom:2px solid #141414;background:#e9e9e9;flex:none;">
-          <div style="width:24px;height:24px;border:2px solid #141414;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex:none;">1</div>
-          <div style="font-weight:700;font-size:10px;letter-spacing:.8px;">1ST LEVEL</div>
-          <div style="flex:1;"></div>
-          <div style="border:2px solid #141414;border-radius:6px;background:#fff;width:56px;height:26px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:2px;"><div style="font-size:6px;font-weight:700;color:#8a8a8a;letter-spacing:.2px;">SLOTS TOTAL</div></div>
-        </div>
-        <div style="flex:1;min-height:0;background:repeating-linear-gradient(#fff,#fff 19px,#d2d2d2 19px,#d2d2d2 20px);"></div>
-      </div>
-      <!-- LEVEL 2 -->
-      <div style="flex:1.1;min-height:0;border:2px solid #141414;border-radius:12px;display:flex;flex-direction:column;overflow:hidden;background:#fff;">
-        <div style="display:flex;align-items:center;gap:8px;padding:4px 9px;border-bottom:2px solid #141414;background:#e9e9e9;flex:none;">
-          <div style="width:24px;height:24px;border:2px solid #141414;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex:none;">2</div>
-          <div style="font-weight:700;font-size:10px;letter-spacing:.8px;">2ND LEVEL</div>
-          <div style="flex:1;"></div>
-          <div style="border:2px solid #141414;border-radius:6px;background:#fff;width:56px;height:26px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:2px;"><div style="font-size:6px;font-weight:700;color:#8a8a8a;letter-spacing:.2px;">SLOTS TOTAL</div></div>
-        </div>
-        <div style="flex:1;min-height:0;background:repeating-linear-gradient(#fff,#fff 19px,#d2d2d2 19px,#d2d2d2 20px);"></div>
-      </div>
-    </div>
-
-    <!-- COLUMN 2 -->
-    <div style="flex:1;display:flex;flex-direction:column;gap:10px;min-height:0;">
-      <!-- LEVEL 3 -->
-      <div style="flex:1;min-height:0;border:2px solid #141414;border-radius:12px;display:flex;flex-direction:column;overflow:hidden;background:#fff;">
-        <div style="display:flex;align-items:center;gap:8px;padding:4px 9px;border-bottom:2px solid #141414;background:#e9e9e9;flex:none;">
-          <div style="width:24px;height:24px;border:2px solid #141414;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex:none;">3</div>
-          <div style="font-weight:700;font-size:10px;letter-spacing:.8px;">3RD LEVEL</div>
-          <div style="flex:1;"></div>
-          <div style="border:2px solid #141414;border-radius:6px;background:#fff;width:56px;height:26px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:2px;"><div style="font-size:6px;font-weight:700;color:#8a8a8a;letter-spacing:.2px;">SLOTS TOTAL</div></div>
-        </div>
-        <div style="flex:1;min-height:0;background:repeating-linear-gradient(#fff,#fff 19px,#d2d2d2 19px,#d2d2d2 20px);"></div>
-      </div>
-      <!-- LEVEL 4 -->
-      <div style="flex:1;min-height:0;border:2px solid #141414;border-radius:12px;display:flex;flex-direction:column;overflow:hidden;background:#fff;">
-        <div style="display:flex;align-items:center;gap:8px;padding:4px 9px;border-bottom:2px solid #141414;background:#e9e9e9;flex:none;">
-          <div style="width:24px;height:24px;border:2px solid #141414;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex:none;">4</div>
-          <div style="font-weight:700;font-size:10px;letter-spacing:.8px;">4TH LEVEL</div>
-          <div style="flex:1;"></div>
-          <div style="border:2px solid #141414;border-radius:6px;background:#fff;width:56px;height:26px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:2px;"><div style="font-size:6px;font-weight:700;color:#8a8a8a;letter-spacing:.2px;">SLOTS TOTAL</div></div>
-        </div>
-        <div style="flex:1;min-height:0;background:repeating-linear-gradient(#fff,#fff 19px,#d2d2d2 19px,#d2d2d2 20px);"></div>
-      </div>
-      <!-- LEVEL 5 -->
-      <div style="flex:1;min-height:0;border:2px solid #141414;border-radius:12px;display:flex;flex-direction:column;overflow:hidden;background:#fff;">
-        <div style="display:flex;align-items:center;gap:8px;padding:4px 9px;border-bottom:2px solid #141414;background:#e9e9e9;flex:none;">
-          <div style="width:24px;height:24px;border:2px solid #141414;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex:none;">5</div>
-          <div style="font-weight:700;font-size:10px;letter-spacing:.8px;">5TH LEVEL</div>
-          <div style="flex:1;"></div>
-          <div style="border:2px solid #141414;border-radius:6px;background:#fff;width:56px;height:26px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:2px;"><div style="font-size:6px;font-weight:700;color:#8a8a8a;letter-spacing:.2px;">SLOTS TOTAL</div></div>
-        </div>
-        <div style="flex:1;min-height:0;background:repeating-linear-gradient(#fff,#fff 19px,#d2d2d2 19px,#d2d2d2 20px);"></div>
-      </div>
-    </div>
-
-    <!-- COLUMN 3 -->
-    <div style="flex:1;display:flex;flex-direction:column;gap:10px;min-height:0;">
-      <!-- LEVEL 6 -->
-      <div style="flex:1;min-height:0;border:2px solid #141414;border-radius:12px;display:flex;flex-direction:column;overflow:hidden;background:#fff;">
-        <div style="display:flex;align-items:center;gap:8px;padding:4px 9px;border-bottom:2px solid #141414;background:#e9e9e9;flex:none;">
-          <div style="width:24px;height:24px;border:2px solid #141414;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex:none;">6</div>
-          <div style="font-weight:700;font-size:10px;letter-spacing:.8px;">6TH LEVEL</div>
-          <div style="flex:1;"></div>
-          <div style="border:2px solid #141414;border-radius:6px;background:#fff;width:56px;height:26px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:2px;"><div style="font-size:6px;font-weight:700;color:#8a8a8a;letter-spacing:.2px;">SLOTS TOTAL</div></div>
-        </div>
-        <div style="flex:1;min-height:0;background:repeating-linear-gradient(#fff,#fff 19px,#d2d2d2 19px,#d2d2d2 20px);"></div>
-      </div>
-      <!-- LEVEL 7 -->
-      <div style="flex:1;min-height:0;border:2px solid #141414;border-radius:12px;display:flex;flex-direction:column;overflow:hidden;background:#fff;">
-        <div style="display:flex;align-items:center;gap:8px;padding:4px 9px;border-bottom:2px solid #141414;background:#e9e9e9;flex:none;">
-          <div style="width:24px;height:24px;border:2px solid #141414;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex:none;">7</div>
-          <div style="font-weight:700;font-size:10px;letter-spacing:.8px;">7TH LEVEL</div>
-          <div style="flex:1;"></div>
-          <div style="border:2px solid #141414;border-radius:6px;background:#fff;width:56px;height:26px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:2px;"><div style="font-size:6px;font-weight:700;color:#8a8a8a;letter-spacing:.2px;">SLOTS TOTAL</div></div>
-        </div>
-        <div style="flex:1;min-height:0;background:repeating-linear-gradient(#fff,#fff 19px,#d2d2d2 19px,#d2d2d2 20px);"></div>
-      </div>
-      <!-- LEVEL 8 -->
-      <div style="flex:1;min-height:0;border:2px solid #141414;border-radius:12px;display:flex;flex-direction:column;overflow:hidden;background:#fff;">
-        <div style="display:flex;align-items:center;gap:8px;padding:4px 9px;border-bottom:2px solid #141414;background:#e9e9e9;flex:none;">
-          <div style="width:24px;height:24px;border:2px solid #141414;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex:none;">8</div>
-          <div style="font-weight:700;font-size:10px;letter-spacing:.8px;">8TH LEVEL</div>
-          <div style="flex:1;"></div>
-          <div style="border:2px solid #141414;border-radius:6px;background:#fff;width:56px;height:26px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:2px;"><div style="font-size:6px;font-weight:700;color:#8a8a8a;letter-spacing:.2px;">SLOTS TOTAL</div></div>
-        </div>
-        <div style="flex:1;min-height:0;background:repeating-linear-gradient(#fff,#fff 19px,#d2d2d2 19px,#d2d2d2 20px);"></div>
-      </div>
-      <!-- LEVEL 9 -->
-      <div style="flex:1;min-height:0;border:2px solid #141414;border-radius:12px;display:flex;flex-direction:column;overflow:hidden;background:#fff;">
-        <div style="display:flex;align-items:center;gap:8px;padding:4px 9px;border-bottom:2px solid #141414;background:#e9e9e9;flex:none;">
-          <div style="width:24px;height:24px;border:2px solid #141414;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex:none;">9</div>
-          <div style="font-weight:700;font-size:10px;letter-spacing:.8px;">9TH LEVEL</div>
-          <div style="flex:1;"></div>
-          <div style="border:2px solid #141414;border-radius:6px;background:#fff;width:56px;height:26px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:2px;"><div style="font-size:6px;font-weight:700;color:#8a8a8a;letter-spacing:.2px;">SLOTS TOTAL</div></div>
-        </div>
-        <div style="flex:1;min-height:0;background:repeating-linear-gradient(#fff,#fff 19px,#d2d2d2 19px,#d2d2d2 20px);"></div>
-      </div>
-    </div>
-  </div>
-</div>
-</body>
-</html>
 </body>
 </html>
