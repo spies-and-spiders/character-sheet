@@ -1,0 +1,39 @@
+name: publish-character-sheet
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  build-character-sheet:
+    name: build-character-sheet
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - run: npm install playwright
+      - run: npx playwright install --with-deps chromium
+      # index.html -> character-sheet.pdf (all three pages)
+      - run: node scripts/render.mjs
+      # split the PDF into one PNG per page: character-sheet-page-1.png, -2, -3
+      - run: sudo apt-get update && sudo apt-get install -y poppler-utils
+      - run: pdftoppm -png -r 150 character-sheet.pdf character-sheet-page
+      - uses: actions/upload-artifact@v7
+        with:
+          name: character-sheet
+          path: |
+            character-sheet.pdf
+            character-sheet-page-*.png
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TZ: Australia/Melbourne
+        run: |
+          gh release delete latest --yes --cleanup-tag || true
+          gh release create latest --target master --latest \
+            --title "$(date '+%Y-%m-%dT%H:%M:%S')" --notes "" \
+            character-sheet.pdf character-sheet-page-*.png
