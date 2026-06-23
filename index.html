@@ -196,15 +196,15 @@
     <header class="header">
       <div class="banner">
         <div class="brand"><img src="assets/emblem.png" alt="emblem"><span>SPIES &amp; SPIDERS</span></div>
-        <div class="line"></div>
+        <div class="line" data-ff="character_name" data-ff-h="26"></div>
         <div class="tag">CHARACTER NAME</div>
       </div>
       <div class="scroll">
         <div class="fields">
-          <label class="field" style="--grow:1.6"><span class="line"></span><span class="tag">CLASS</span></label>
-          <label class="field" style="--grow:.7"><span class="line"></span><span class="tag">LEVEL</span></label>
-          <label class="field" style="--grow:.7"><span class="line"></span><span class="tag">AGE</span></label>
-          <label class="field" style="--grow:2"><span class="line"></span><span class="tag">PLAYER NAME</span></label>
+          <label class="field" style="--grow:1.6"><span class="line" data-ff="class"></span><span class="tag">CLASS</span></label>
+          <label class="field" style="--grow:.7"><span class="line" data-ff="level"></span><span class="tag">LEVEL</span></label>
+          <label class="field" style="--grow:.7"><span class="line" data-ff="age"></span><span class="tag">AGE</span></label>
+          <label class="field" style="--grow:2"><span class="line" data-ff="player_name"></span><span class="tag">PLAYER NAME</span></label>
         </div>
       </div>
     </header>
@@ -215,63 +215,63 @@
       <!-- ===== LEFT COLUMN ===== -->
       <div class="col-left">
         <div class="abilities">
-          <div class="pill"><div class="pill__icon"><i></i></div><div class="pill__name">PROFICIENCY BONUS</div></div>
-          <div class="pill"><div class="pill__icon diamond"><i></i></div><div class="pill__name">INSPIRATION</div></div>
+          <div class="pill"><div class="pill__icon"><i data-ff="proficiency_bonus" data-ff-align="center"></i></div><div class="pill__name">PROFICIENCY BONUS</div></div>
+          <div class="pill"><div class="pill__icon diamond"><i data-ff="inspiration" data-ff-type="check"></i></div><div class="pill__name">INSPIRATION</div></div>
 
           <!-- one .ability block per stat; skill = <i> dot + <u> line + label -->
           <div class="ability">
-            <div class="ability__score"><div class="score"></div><div class="tri"></div><div class="name">STRENGTH</div></div>
+            <div class="ability__score"><div class="score" data-ff="str_score" data-ff-align="center"></div><div class="tri"></div><div class="name">STRENGTH</div></div>
             <div class="connector"></div>
             <div class="skills">
-              <div class="skill"><i></i><u></u>ATHLETICS</div>
-              <div class="skill"><i></i><u></u>BRAWN</div>
+              <div class="skill"><i data-ff="prof_athletics" data-ff-type="check"></i><u data-ff="mod_athletics"></u>ATHLETICS</div>
+              <div class="skill"><i data-ff="prof_brawn" data-ff-type="check"></i><u data-ff="mod_brawn"></u>BRAWN</div>
             </div>
           </div>
 
           <div class="ability">
-            <div class="ability__score"><div class="score"></div><div class="tri"></div><div class="name">DEXTERITY</div></div>
+            <div class="ability__score"><div class="score" data-ff="dex_score" data-ff-align="center"></div><div class="tri"></div><div class="name">DEXTERITY</div></div>
             <div class="connector"></div>
             <div class="skills">
-              <div class="skill"><i></i><u></u>FINESSE</div>
-              <div class="skill"><i></i><u></u>STEALTH</div>
+              <div class="skill"><i data-ff="prof_finesse" data-ff-type="check"></i><u data-ff="mod_finesse"></u>FINESSE</div>
+              <div class="skill"><i data-ff="prof_stealth" data-ff-type="check"></i><u data-ff="mod_stealth"></u>STEALTH</div>
             </div>
-            <div class="init">INITIATIVE</div>
+            <div class="init" data-ff="initiative" data-ff-ib="10" data-ff-align="center">INITIATIVE</div>
           </div>
 
           <div class="ability">
-            <div class="ability__score"><div class="score"></div><div class="tri"></div><div class="name sm">INTELLIGENCE</div></div>
+            <div class="ability__score"><div class="score" data-ff="int_score" data-ff-align="center"></div><div class="tri"></div><div class="name sm">INTELLIGENCE</div></div>
             <div class="connector"></div>
             <div class="skills tight">
-              <div class="skill"><i></i><u></u>HISTORY</div>
-              <div class="skill"><i></i><u></u>MAGISCIENCE</div>
-              <div class="skill"><i></i><u></u>MEDICINE</div>
-              <div class="skill"><i></i><u></u>NATURE</div>
+              <div class="skill"><i data-ff="prof_history" data-ff-type="check"></i><u data-ff="mod_history"></u>HISTORY</div>
+              <div class="skill"><i data-ff="prof_magiscience" data-ff-type="check"></i><u data-ff="mod_magiscience"></u>MAGISCIENCE</div>
+              <div class="skill"><i data-ff="prof_medicine" data-ff-type="check"></i><u data-ff="mod_medicine"></u>MEDICINE</div>
+              <div class="skill"><i data-ff="prof_nature" data-ff-type="check"></i><u data-ff="mod_nature"></u>NATURE</div>
             </div>
           </div>
 
           <div class="ability">
-            <div class="ability__score"><div class="score"></div><div class="tri"></div><div class="name">WISDOM</div></div>
+            <div class="ability__score"><div class="score" data-ff="wis_score" data-ff-align="center"></div><div class="tri"></div><div class="name">WISDOM</div></div>
             <div class="connector"></div>
             <div class="skills tight">
-              <div class="skill"><i></i><u></u>INSIGHT</div>
-              <div class="skill"><i></i><u></u>INVESTIGATION</div>
-              <div class="skill"><i></i><u></u>PERCEPTION</div>
-              <div class="skill"><i></i><u></u>SURVIVAL</div>
+              <div class="skill"><i data-ff="prof_insight" data-ff-type="check"></i><u data-ff="mod_insight"></u>INSIGHT</div>
+              <div class="skill"><i data-ff="prof_investigation" data-ff-type="check"></i><u data-ff="mod_investigation"></u>INVESTIGATION</div>
+              <div class="skill"><i data-ff="prof_perception" data-ff-type="check"></i><u data-ff="mod_perception"></u>PERCEPTION</div>
+              <div class="skill"><i data-ff="prof_survival" data-ff-type="check"></i><u data-ff="mod_survival"></u>SURVIVAL</div>
             </div>
           </div>
 
           <div class="ability">
-            <div class="ability__score"><div class="score"></div><div class="tri"></div><div class="name">CHARISMA</div></div>
+            <div class="ability__score"><div class="score" data-ff="cha_score" data-ff-align="center"></div><div class="tri"></div><div class="name">CHARISMA</div></div>
             <div class="connector"></div>
             <div class="skills">
-              <div class="skill"><i></i><u></u>DECEPTION</div>
-              <div class="skill"><i></i><u></u>INTIMIDATION</div>
-              <div class="skill"><i></i><u></u>PERSUASION</div>
+              <div class="skill"><i data-ff="prof_deception" data-ff-type="check"></i><u data-ff="mod_deception"></u>DECEPTION</div>
+              <div class="skill"><i data-ff="prof_intimidation" data-ff-type="check"></i><u data-ff="mod_intimidation"></u>INTIMIDATION</div>
+              <div class="skill"><i data-ff="prof_persuasion" data-ff-type="check"></i><u data-ff="mod_persuasion"></u>PERSUASION</div>
             </div>
           </div>
         </div>
 
-        <div class="knacks ruled"><div class="cap">KNACKS</div></div>
+        <div class="knacks ruled" data-ff="knacks" data-ff-type="area" data-ff-ib="22"><div class="cap">KNACKS</div></div>
       </div>
 
       <!-- ===== RIGHT REGION ===== -->
@@ -282,40 +282,40 @@
           <div class="panel defenses">
             <div class="row">
               <div class="def-grid">
-                <div class="def-cell">ARMOUR</div>
-                <div class="def-cell">FORTITUDE</div>
-                <div class="def-cell">REFLEX</div>
-                <div class="def-cell">WILL</div>
+                <div class="def-cell" data-ff="def_armour" data-ff-it="13" data-ff-align="center">ARMOUR</div>
+                <div class="def-cell" data-ff="def_fortitude" data-ff-it="13" data-ff-align="center">FORTITUDE</div>
+                <div class="def-cell" data-ff="def_reflex" data-ff-it="13" data-ff-align="center">REFLEX</div>
+                <div class="def-cell" data-ff="def_will" data-ff-it="13" data-ff-align="center">WILL</div>
               </div>
-              <div class="box speeds">SPEEDS</div>
+              <div class="box speeds" data-ff="speeds" data-ff-type="area" data-ff-ib="14" data-ff-align="center">SPEEDS</div>
             </div>
 
             <div class="box hp">
               <div class="hp__left">
-                <div class="hp__cell divider"><div class="sub">MAX HP</div></div>
-                <div class="hp__cell"><div class="sub">HIT DIE</div></div>
+                <div class="hp__cell divider"><div class="sub">MAX HP</div><span data-ff="max_hp" data-ff-ib="12" data-ff-align="center" style="position:absolute;inset:0"></span></div>
+                <div class="hp__cell"><div class="sub">HIT DIE</div><span data-ff="hit_die" data-ff-ib="12" data-ff-align="center" style="position:absolute;inset:0"></span></div>
               </div>
-              <div class="hp__right"><div class="cap">RESISTANCES &amp; BARRIER</div></div>
+              <div class="hp__right" data-ff="resistances" data-ff-type="area" data-ff-ib="16"><div class="cap">RESISTANCES &amp; BARRIER</div></div>
             </div>
 
             <div class="row" style="height:92px">
-              <div class="box" style="flex:1"><div class="cap sm">CRIT DAMAGE BONUS</div></div>
-              <div class="box" style="flex:1.25"><div class="cap sm">ON CRIT</div></div>
+              <div class="box" style="flex:1" data-ff="crit_damage_bonus" data-ff-ib="16"><div class="cap sm">CRIT DAMAGE BONUS</div></div>
+              <div class="box" style="flex:1.25" data-ff="on_crit" data-ff-type="area" data-ff-ib="16"><div class="cap sm">ON CRIT</div></div>
             </div>
 
-            <div class="box" style="height:72px"><div class="cap">ON INITIATIVE</div></div>
+            <div class="box" style="height:72px" data-ff="on_initiative" data-ff-type="area" data-ff-ib="16"><div class="cap">ON INITIATIVE</div></div>
           </div>
 
           <!-- when hit / quick reference -->
           <div class="stack">
             <div class="panel">
               <div class="row" style="height:150px">
-                <div class="box" style="flex:1"><div class="cap mid">WHEN HIT</div></div>
-                <div class="box" style="flex:1"><div class="cap mid">WHEN NOT HIT</div></div>
+                <div class="box" style="flex:1" data-ff="when_hit" data-ff-type="area" data-ff-ib="16"><div class="cap mid">WHEN HIT</div></div>
+                <div class="box" style="flex:1" data-ff="when_not_hit" data-ff-type="area" data-ff-ib="16"><div class="cap mid">WHEN NOT HIT</div></div>
               </div>
             </div>
             <div class="panel" style="flex:1;display:flex;min-height:0">
-              <div class="box" style="flex:1"><div class="cap">QUICK REFERENCE</div></div>
+              <div class="box" style="flex:1" data-ff="quick_reference" data-ff-type="area" data-ff-ib="16"><div class="cap">QUICK REFERENCE</div></div>
             </div>
           </div>
         </div>
@@ -329,19 +329,19 @@
             <div class="w-extra">EXTRA</div>
           </div>
           <div class="wp-row">
-            <div class="bar w-name"></div>
-            <div class="bar w-atk"></div>
-            <div class="bar w-dmg"></div>
-            <div class="bar w-extra"></div>
+            <div class="bar w-name" data-ff="weapon1_name"></div>
+            <div class="bar w-atk" data-ff="weapon1_atk"></div>
+            <div class="bar w-dmg" data-ff="weapon1_dmg"></div>
+            <div class="bar w-extra" data-ff="weapon1_extra"></div>
           </div>
           <div class="bars">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
+            <div class="bar" data-ff="weapon_2"></div>
+            <div class="bar" data-ff="weapon_3"></div>
+            <div class="bar" data-ff="weapon_4"></div>
+            <div class="bar" data-ff="weapon_5"></div>
+            <div class="bar" data-ff="weapon_6"></div>
           </div>
-          <div class="on-hit"><div class="cap">ON HIT</div></div>
+          <div class="on-hit" data-ff="on_hit" data-ff-type="area"><div class="cap">ON HIT</div></div>
           <div class="major">MAJOR EFFECTS</div>
         </div>
       </div>
@@ -356,8 +356,8 @@
       <div class="card" style="flex:1.9">
         <div class="card__title">FEATURES &amp; TRAITS</div>
         <div class="feat-cols">
-          <div class="ruled"></div>
-          <div class="ruled"></div>
+          <div class="ruled" data-ff="features_1" data-ff-type="area"></div>
+          <div class="ruled" data-ff="features_2" data-ff-type="area"></div>
         </div>
       </div>
 
@@ -367,11 +367,11 @@
           <div class="cm-head__left">
             <div class="cm-titlerow">
               <div class="card__title" style="padding:0">COMBAT MANEUVERS</div>
-              <div class="inline-field" style="flex:1"><label>MANEUVERS KNOWN</label><div class="line"></div></div>
+              <div class="inline-field" style="flex:1"><label>MANEUVERS KNOWN</label><div class="line" data-ff="maneuvers_known"></div></div>
             </div>
-            <div class="inline-field" style="margin-top:7px"><label>TRADITIONS KNOWN</label><div class="line"></div></div>
+            <div class="inline-field" style="margin-top:7px"><label>TRADITIONS KNOWN</label><div class="line" data-ff="traditions_known"></div></div>
           </div>
-          <div class="exertion"><b>EXERTION POINTS</b><small>2 × PROFICIENCY BONUS</small></div>
+          <div class="exertion" data-ff="exertion_points" data-ff-ib="22"><b>EXERTION POINTS</b><small>2 × PROFICIENCY BONUS</small></div>
         </div>
         <div class="cm-cols">
           <div class="c-man">MANEUVER</div>
@@ -379,16 +379,16 @@
           <div class="c-act">ACTIVATION</div>
         </div>
         <div class="cm-rows">
-          <div class="cm-row"><div class="uline c-man"></div><div class="uline c-cost"></div><div class="uline c-act"></div></div>
-          <div class="cm-row"><div class="uline c-man"></div><div class="uline c-cost"></div><div class="uline c-act"></div></div>
-          <div class="cm-row"><div class="uline c-man"></div><div class="uline c-cost"></div><div class="uline c-act"></div></div>
-          <div class="cm-row"><div class="uline c-man"></div><div class="uline c-cost"></div><div class="uline c-act"></div></div>
-          <div class="cm-row"><div class="uline c-man"></div><div class="uline c-cost"></div><div class="uline c-act"></div></div>
-          <div class="cm-row"><div class="uline c-man"></div><div class="uline c-cost"></div><div class="uline c-act"></div></div>
-          <div class="cm-row"><div class="uline c-man"></div><div class="uline c-cost"></div><div class="uline c-act"></div></div>
-          <div class="cm-row"><div class="uline c-man"></div><div class="uline c-cost"></div><div class="uline c-act"></div></div>
-          <div class="cm-row"><div class="uline c-man"></div><div class="uline c-cost"></div><div class="uline c-act"></div></div>
-          <div class="cm-row"><div class="uline c-man"></div><div class="uline c-cost"></div><div class="uline c-act"></div></div>
+          <div class="cm-row"><div class="uline c-man" data-ff="maneuver_1_name"></div><div class="uline c-cost" data-ff="maneuver_1_cost"></div><div class="uline c-act" data-ff="maneuver_1_act"></div></div>
+          <div class="cm-row"><div class="uline c-man" data-ff="maneuver_2_name"></div><div class="uline c-cost" data-ff="maneuver_2_cost"></div><div class="uline c-act" data-ff="maneuver_2_act"></div></div>
+          <div class="cm-row"><div class="uline c-man" data-ff="maneuver_3_name"></div><div class="uline c-cost" data-ff="maneuver_3_cost"></div><div class="uline c-act" data-ff="maneuver_3_act"></div></div>
+          <div class="cm-row"><div class="uline c-man" data-ff="maneuver_4_name"></div><div class="uline c-cost" data-ff="maneuver_4_cost"></div><div class="uline c-act" data-ff="maneuver_4_act"></div></div>
+          <div class="cm-row"><div class="uline c-man" data-ff="maneuver_5_name"></div><div class="uline c-cost" data-ff="maneuver_5_cost"></div><div class="uline c-act" data-ff="maneuver_5_act"></div></div>
+          <div class="cm-row"><div class="uline c-man" data-ff="maneuver_6_name"></div><div class="uline c-cost" data-ff="maneuver_6_cost"></div><div class="uline c-act" data-ff="maneuver_6_act"></div></div>
+          <div class="cm-row"><div class="uline c-man" data-ff="maneuver_7_name"></div><div class="uline c-cost" data-ff="maneuver_7_cost"></div><div class="uline c-act" data-ff="maneuver_7_act"></div></div>
+          <div class="cm-row"><div class="uline c-man" data-ff="maneuver_8_name"></div><div class="uline c-cost" data-ff="maneuver_8_cost"></div><div class="uline c-act" data-ff="maneuver_8_act"></div></div>
+          <div class="cm-row"><div class="uline c-man" data-ff="maneuver_9_name"></div><div class="uline c-cost" data-ff="maneuver_9_cost"></div><div class="uline c-act" data-ff="maneuver_9_act"></div></div>
+          <div class="cm-row"><div class="uline c-man" data-ff="maneuver_10_name"></div><div class="uline c-cost" data-ff="maneuver_10_cost"></div><div class="uline c-act" data-ff="maneuver_10_act"></div></div>
         </div>
       </div>
     </div>
@@ -401,56 +401,56 @@
       <!-- COLUMN 1 -->
       <div class="spell-col">
         <div class="spell" style="--g:.62">
-          <div class="spell__head"><div class="spell__name">ARCANE UTILITIES</div><div class="spacer"></div><div class="spell__count"><span>TOTAL KNOWN</span></div></div>
-          <div class="spell__fill ruled19"></div>
+          <div class="spell__head"><div class="spell__name">ARCANE UTILITIES</div><div class="spacer"></div><div class="spell__count" data-ff="arcane_utilities_known" data-ff-ib="8" data-ff-align="center"><span>TOTAL KNOWN</span></div></div>
+          <div class="spell__fill ruled19" data-ff="arcane_utilities" data-ff-type="area"></div>
         </div>
         <div class="spell" style="--g:.62">
-          <div class="spell__head"><div class="spell__name">CANTRIPS</div><div class="spacer"></div><div class="spell__count"><span>TOTAL KNOWN</span></div></div>
-          <div class="spell__fill ruled19"></div>
+          <div class="spell__head"><div class="spell__name">CANTRIPS</div><div class="spacer"></div><div class="spell__count" data-ff="cantrips_known" data-ff-ib="8" data-ff-align="center"><span>TOTAL KNOWN</span></div></div>
+          <div class="spell__fill ruled19" data-ff="cantrips" data-ff-type="area"></div>
         </div>
         <div class="spell" style="--g:1.1">
-          <div class="spell__head"><div class="lvl-badge">1</div><div class="spell__name lvl">1ST LEVEL</div><div class="spacer"></div><div class="spell__count"><span>SLOTS TOTAL</span></div></div>
-          <div class="spell__fill ruled19"></div>
+          <div class="spell__head"><div class="lvl-badge">1</div><div class="spell__name lvl">1ST LEVEL</div><div class="spacer"></div><div class="spell__count" data-ff="level_1_slots" data-ff-ib="8" data-ff-align="center"><span>SLOTS TOTAL</span></div></div>
+          <div class="spell__fill ruled19" data-ff="level_1" data-ff-type="area"></div>
         </div>
         <div class="spell" style="--g:1.1">
-          <div class="spell__head"><div class="lvl-badge">2</div><div class="spell__name lvl">2ND LEVEL</div><div class="spacer"></div><div class="spell__count"><span>SLOTS TOTAL</span></div></div>
-          <div class="spell__fill ruled19"></div>
+          <div class="spell__head"><div class="lvl-badge">2</div><div class="spell__name lvl">2ND LEVEL</div><div class="spacer"></div><div class="spell__count" data-ff="level_2_slots" data-ff-ib="8" data-ff-align="center"><span>SLOTS TOTAL</span></div></div>
+          <div class="spell__fill ruled19" data-ff="level_2" data-ff-type="area"></div>
         </div>
       </div>
 
       <!-- COLUMN 2 -->
       <div class="spell-col">
         <div class="spell">
-          <div class="spell__head"><div class="lvl-badge">3</div><div class="spell__name lvl">3RD LEVEL</div><div class="spacer"></div><div class="spell__count"><span>SLOTS TOTAL</span></div></div>
-          <div class="spell__fill ruled19"></div>
+          <div class="spell__head"><div class="lvl-badge">3</div><div class="spell__name lvl">3RD LEVEL</div><div class="spacer"></div><div class="spell__count" data-ff="level_3_slots" data-ff-ib="8" data-ff-align="center"><span>SLOTS TOTAL</span></div></div>
+          <div class="spell__fill ruled19" data-ff="level_3" data-ff-type="area"></div>
         </div>
         <div class="spell">
-          <div class="spell__head"><div class="lvl-badge">4</div><div class="spell__name lvl">4TH LEVEL</div><div class="spacer"></div><div class="spell__count"><span>SLOTS TOTAL</span></div></div>
-          <div class="spell__fill ruled19"></div>
+          <div class="spell__head"><div class="lvl-badge">4</div><div class="spell__name lvl">4TH LEVEL</div><div class="spacer"></div><div class="spell__count" data-ff="level_4_slots" data-ff-ib="8" data-ff-align="center"><span>SLOTS TOTAL</span></div></div>
+          <div class="spell__fill ruled19" data-ff="level_4" data-ff-type="area"></div>
         </div>
         <div class="spell">
-          <div class="spell__head"><div class="lvl-badge">5</div><div class="spell__name lvl">5TH LEVEL</div><div class="spacer"></div><div class="spell__count"><span>SLOTS TOTAL</span></div></div>
-          <div class="spell__fill ruled19"></div>
+          <div class="spell__head"><div class="lvl-badge">5</div><div class="spell__name lvl">5TH LEVEL</div><div class="spacer"></div><div class="spell__count" data-ff="level_5_slots" data-ff-ib="8" data-ff-align="center"><span>SLOTS TOTAL</span></div></div>
+          <div class="spell__fill ruled19" data-ff="level_5" data-ff-type="area"></div>
         </div>
       </div>
 
       <!-- COLUMN 3 -->
       <div class="spell-col">
         <div class="spell">
-          <div class="spell__head"><div class="lvl-badge">6</div><div class="spell__name lvl">6TH LEVEL</div><div class="spacer"></div><div class="spell__count"><span>SLOTS TOTAL</span></div></div>
-          <div class="spell__fill ruled19"></div>
+          <div class="spell__head"><div class="lvl-badge">6</div><div class="spell__name lvl">6TH LEVEL</div><div class="spacer"></div><div class="spell__count" data-ff="level_6_slots" data-ff-ib="8" data-ff-align="center"><span>SLOTS TOTAL</span></div></div>
+          <div class="spell__fill ruled19" data-ff="level_6" data-ff-type="area"></div>
         </div>
         <div class="spell">
-          <div class="spell__head"><div class="lvl-badge">7</div><div class="spell__name lvl">7TH LEVEL</div><div class="spacer"></div><div class="spell__count"><span>SLOTS TOTAL</span></div></div>
-          <div class="spell__fill ruled19"></div>
+          <div class="spell__head"><div class="lvl-badge">7</div><div class="spell__name lvl">7TH LEVEL</div><div class="spacer"></div><div class="spell__count" data-ff="level_7_slots" data-ff-ib="8" data-ff-align="center"><span>SLOTS TOTAL</span></div></div>
+          <div class="spell__fill ruled19" data-ff="level_7" data-ff-type="area"></div>
         </div>
         <div class="spell">
-          <div class="spell__head"><div class="lvl-badge">8</div><div class="spell__name lvl">8TH LEVEL</div><div class="spacer"></div><div class="spell__count"><span>SLOTS TOTAL</span></div></div>
-          <div class="spell__fill ruled19"></div>
+          <div class="spell__head"><div class="lvl-badge">8</div><div class="spell__name lvl">8TH LEVEL</div><div class="spacer"></div><div class="spell__count" data-ff="level_8_slots" data-ff-ib="8" data-ff-align="center"><span>SLOTS TOTAL</span></div></div>
+          <div class="spell__fill ruled19" data-ff="level_8" data-ff-type="area"></div>
         </div>
         <div class="spell">
-          <div class="spell__head"><div class="lvl-badge">9</div><div class="spell__name lvl">9TH LEVEL</div><div class="spacer"></div><div class="spell__count"><span>SLOTS TOTAL</span></div></div>
-          <div class="spell__fill ruled19"></div>
+          <div class="spell__head"><div class="lvl-badge">9</div><div class="spell__name lvl">9TH LEVEL</div><div class="spacer"></div><div class="spell__count" data-ff="level_9_slots" data-ff-ib="8" data-ff-align="center"><span>SLOTS TOTAL</span></div></div>
+          <div class="spell__fill ruled19" data-ff="level_9" data-ff-type="area"></div>
         </div>
       </div>
     </div>
